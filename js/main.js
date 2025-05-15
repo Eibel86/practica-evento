@@ -61,9 +61,9 @@ const modifyCardsVisibilty = (currentTag) =>{
 // @param visibleCardsNum : Number with the value that will be inserted in the text.
 const modifySentence = (tagId, visibleCardsNum) =>{
         const sentence = document.querySelector("#sentence");
-        //TODO: falta añadir el numero de imagenes.
         sentence.textContent =  `Se ha encontrado ${visibleCardsNum} imágenes con el tag ${tagId}`;  
 }
+
 
 // Modify the big img with a give id.
 // @param tagId: String with the id the that will be used to modify the image.
@@ -80,15 +80,13 @@ const modifyImgBig = (tagId) => {
 }
 
 
-// Crea un elemento con la etiqueta button.
-// @param nombre : String de la id del botón.
-// @return HTMLElement: referencia al objeto creado en el DOM.
-const createFilter = (nombre) =>{
-     //crear etiqueta buton
+// Create a filter element of button type.
+// @param name : String with the id of the button.
+// @return HTMLElement: reference of the created element in the DOM.
+const createFilter = (name) =>{
     const button = document.createElement("BUTTON");
-    //Dar texto al button
-    button.textContent = nombre;
-    button.id = nombre;
+    button.textContent = name;
+    button.id = name;
     return button;
 }
 
@@ -109,22 +107,30 @@ const getExistingTags = (objectArray) =>{
 
 //Create all the buttons for the id filters container.
 const createAllFilters = () => {
-    // Array de nombres de los buttons.
     const nombresFilters = getExistingTags(gallery);
-    // ACCEDER AL SELECTOR DIV ID filtersContainer
     const filtersContainer = document.querySelector("#filtersContainer");
-    //console.log(filtersContainer);//ok
-  
-    // funcion
+
     nombresFilters.forEach(name => {
         const newButton = createFilter(name);
         newButton.addEventListener("click", (ev) =>{
             onClickFilterTag(ev)
         })
         //dar ubicacion a la etiqueta button
-        filtersContainer.append(newButton);
+        fragment.append(newButton);
     });
+    filtersContainer.append(fragment);
+
+    //Events with delegate:
+    /*
+    filtersContainer.addEventListener("click", (ev) =>{
+            onClickFilterTag(ev)
+        })
+    onClickFilterTag should check a if the target is the correct with a class or with a data-set.
+    */
+    
+
 }
+
 
 // Create a card element: a article with a image and a title.
 // @param Object : information to fill the card element.
@@ -155,10 +161,8 @@ const fillGallery = () =>{
     galleryRef.append(fragment);
 }
 
-
-
-// Functions calls.
-createAllFilters();
-fillGallery();
-
-
+//Initialize the code.
+const init = () =>{
+    createAllFilters();
+    fillGallery();
+}
