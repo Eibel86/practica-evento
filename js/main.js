@@ -4,6 +4,9 @@ const onClickFilterTag = (ev) =>{
     modifySentence(ev.target.id);
 }
 
+
+// Modify the sentence with a given id.
+// @param tagId: String with the id the that will be inserted in the text.
 const modifySentence = (tagId) =>{
         const sentence = document.querySelector("#sentence");
         //TODO: falta añadir el numero de imagenes.
