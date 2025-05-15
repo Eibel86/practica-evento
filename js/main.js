@@ -1,25 +1,24 @@
 //Array de imagenes
-
 const gallery = [
        {
         titulo: 'Viaje 1',
         url: '../assets/images/viajes/viajes-1.jpg',
         alt: 'texto alternativo de la imagen',
-        descripcion: 'Breve descripción de la imagen',
+        descripcion: 'Breve descripción de la imagen 1',
         tags: ['mar'],
     },
   {
         titulo: 'Viaje 2',
         url: '../assets/images/viajes/viajes-2.jpg',
         alt: 'texto alternativo de la imagen',
-        descripcion: 'Breve descripción de la imagen',
+        descripcion: 'Breve descripción de la imagen 2',
         tags: ["arena"],
     },
       {
         titulo: 'Viaje 3',
         url: '../assets/images/viajes/viajes-3.jpg',
         alt: 'texto alternativo de la imagen',
-        descripcion: 'Breve descripción de la imagen',
+        descripcion: 'Breve descripción de la imagen 3',
         tags: ["mar","cosa"],
     },
 
@@ -31,17 +30,39 @@ const fragment = document.createDocumentFragment();
 // Function called when the user clicks on the filet tag button.
 // @param idTag : String with the tag that will be used to filter elements.
 const onClickFilterTag = (ev) =>{
-    modifySentence(ev.target.id);
     modifyImgBig(ev.target.id);
+    const visibleCardsNum = modifyCardsVisibilty(ev.target.id);
+    modifySentence(ev.target.id, visibleCardsNum);
+
+}
+
+
+// Handle the visibility of the cards with a given tag.
+// @param currentTag : String with the tag current tag, if the card contains that tag will be visible, else no.
+// @return Number : the count of the visible elements.
+const modifyCardsVisibilty = (currentTag) =>{
+    const cards = document.querySelectorAll(".card");
+    const groupedCards = Object.groupBy(cards, (element)=>{
+        const elementTags = element.dataset.tags
+        return elementTags.includes(currentTag) ? "visible" : "invisible";
+    });
+    groupedCards.invisible.forEach(element =>{
+        element.classList.add("display-none");
+    })
+    groupedCards.visible.forEach(element =>{
+        element.classList.remove("display-none");
+    })
+    return groupedCards.visible.length;
 }
 
 
 // Modify the sentence with a given id.
 // @param tagId: String with the id the that will be inserted in the text.
-const modifySentence = (tagId) =>{
+// @param visibleCardsNum : Number with the value that will be inserted in the text.
+const modifySentence = (tagId, visibleCardsNum) =>{
         const sentence = document.querySelector("#sentence");
         //TODO: falta añadir el numero de imagenes.
-        sentence.textContent =  `Se ha encontrado ${null} imágenes con el tag ${tagId}`;  
+        sentence.textContent =  `Se ha encontrado ${visibleCardsNum} imágenes con el tag ${tagId}`;  
 }
 
 // Modify the big img with a give id.
