@@ -1,7 +1,36 @@
+//Array de imagenes
+
+const galery = [
+       {
+        titulo: 'Viaje 1',
+        url: '../assets/images/viajes/viajes-1.jpg',
+        alt: 'texto alternativo de la imagen',
+        descripcion: 'Breve descripción de la imagen',
+        tags: ['mar'],
+    },
+  {
+        titulo: 'Viaje 2',
+        url: '../assets/images/viajes/viajes-2.jpg',
+        alt: 'texto alternativo de la imagen',
+        descripcion: 'Breve descripción de la imagen',
+        tags: ["arena"],
+    },
+      {
+        titulo: 'Viaje 3',
+        url: '../assets/images/viajes/viajes-3.jpg',
+        alt: 'texto alternativo de la imagen',
+        descripcion: 'Breve descripción de la imagen',
+        tags: ["mar","cosa"],
+    },
+
+]
+
+
 // Function called when the user clicks on the filet tag button.
 // @param idTag : String with the tag that will be used to filter elements.
 const onClickFilterTag = (ev) =>{
     modifySentence(ev.target.id);
+    modifyImgBig(ev.target.id);
 }
 
 
@@ -11,6 +40,20 @@ const modifySentence = (tagId) =>{
         const sentence = document.querySelector("#sentence");
         //TODO: falta añadir el numero de imagenes.
         sentence.textContent =  `Se ha encontrado ${null} imágenes con el tag ${tagId}`;  
+}
+
+// Modify the big img with a give id.
+// @param tagId: String with the id the that will be used to modify the image.
+const modifyImgBig = (tagId) => {
+        const imgBig = document.querySelector(`#imgBig`);
+        const imagen = galery.find(imagen =>{
+
+                return imagen.tags.includes(tagId);
+        }) 
+        if(imagen!= undefined && imagen != null){
+            imgBig.src = imagen.url;
+        }
+        
 }
 
 
@@ -30,7 +73,7 @@ const createFilter = (nombre) =>{
 //Create all the buttons for the id filters container.
 const createAllFilters = () => {
     // Array de nombres de los buttons.
-    const nombresFilters = ["Mar", "Edificio", "Señales", "Arena","Cosa"];
+    const nombresFilters = ["mar", "edificio", "señales", "arena","cosa"];
     // ACCEDER AL SELECTOR DIV ID filtersContainer
     const filtersContainer = document.querySelector("#filtersContainer");
     //console.log(filtersContainer);//ok
