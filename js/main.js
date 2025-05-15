@@ -1,7 +1,13 @@
 // Function called when the user clicks on the filet tag button.
 // @param idTag : String with the tag that will be used to filter elements.
-const onClickFilterTag = (idTag) =>{
-    console.log(idTag)
+const onClickFilterTag = (ev) =>{
+    modifySentence(ev.target.id);
+}
+
+const modifySentence = (tagId) =>{
+        const sentence = document.querySelector("#sentence");
+        //TODO: falta añadir el numero de imagenes.
+        sentence.textContent =  `Se ha encontrado ${null} imágenes con el tag ${tagId}`;  
 }
 
 
@@ -30,7 +36,7 @@ const createAllFilters = () => {
     nombresFilters.forEach(name => {
         const newButton = createFilter(name);
         newButton.addEventListener("click", (ev) =>{
-            onClickFilterTag(ev.target.id)
+            onClickFilterTag(ev)
         })
         //dar ubicacion a la etiqueta button
         filtersContainer.append(newButton);
