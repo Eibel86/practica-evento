@@ -1,6 +1,6 @@
 //Array de imagenes
 
-const galery = [
+const gallery = [
        {
         titulo: 'Viaje 1',
         url: '../assets/images/viajes/viajes-1.jpg',
@@ -25,6 +25,8 @@ const galery = [
 
 ]
 
+const fragment = document.createDocumentFragment();
+
 
 // Function called when the user clicks on the filet tag button.
 // @param idTag : String with the tag that will be used to filter elements.
@@ -46,7 +48,7 @@ const modifySentence = (tagId) =>{
 // @param tagId: String with the id the that will be used to modify the image.
 const modifyImgBig = (tagId) => {
         const imgBig = document.querySelector(`#imgBig`);
-        const imagen = galery.find(imagen =>{
+        const imagen = gallery.find(imagen =>{
 
                 return imagen.tags.includes(tagId);
         }) 
@@ -87,7 +89,7 @@ const getExistingTags = (objectArray) =>{
 //Create all the buttons for the id filters container.
 const createAllFilters = () => {
     // Array de nombres de los buttons.
-    const nombresFilters = getExistingTags(galery);
+    const nombresFilters = getExistingTags(gallery);
     // ACCEDER AL SELECTOR DIV ID filtersContainer
     const filtersContainer = document.querySelector("#filtersContainer");
     //console.log(filtersContainer);//ok
@@ -103,8 +105,39 @@ const createAllFilters = () => {
     });
 }
 
+// Create a card element: a article with a image and a title.
+// @param Object : information to fill the card element.
+// @return HTMLElement : the card element reference in the DOM.
+const createCard = (galleryImage) =>{
+    const card = document.createElement("ARTICLE");
+    const title = document.createElement("H3");
+    const imageContainer = document.createElement("DIV");
+    const image = document.createElement("IMG");
+    card.classList.add("card");
+    card.dataset.tags = galleryImage.tags;
+    title.innerText = galleryImage.descripcion;
+    image.src = galleryImage.url;
+    image.alt = galleryImage.alt;
+    imageContainer.append(image);
+    card.append(title,imageContainer);
+    return card;
+}
+
+
+// Fill the element with gallery id with card elements using the gallery data.
+const fillGallery = () =>{
+    const galleryRef = document.querySelector("#gallery");
+    gallery.forEach(element => {
+        const newCard = createCard(element);
+        fragment.append(newCard);
+    })
+    galleryRef.append(fragment);
+}
+
+
 
 // Functions calls.
-createAllFilters()
+createAllFilters();
+fillGallery();
 
 
