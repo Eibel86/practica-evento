@@ -70,10 +70,24 @@ const createFilter = (nombre) =>{
 }
 
 
+// Get all the differents arrays in a object array.
+// @param ObjectArray : Array with objects that should contains "tag" attribute.
+// @return Array with all the tags without repetition.
+const getExistingTags = (objectArray) =>{
+    const uniqueTags = new Set();
+    objectArray.forEach(galleryElement =>{
+        galleryElement.tags.forEach(tag => {
+            uniqueTags.add(tag);
+        })
+    });
+    return [...uniqueTags];
+}
+
+
 //Create all the buttons for the id filters container.
 const createAllFilters = () => {
     // Array de nombres de los buttons.
-    const nombresFilters = ["mar", "edificio", "señales", "arena","cosa"];
+    const nombresFilters = getExistingTags(galery);
     // ACCEDER AL SELECTOR DIV ID filtersContainer
     const filtersContainer = document.querySelector("#filtersContainer");
     //console.log(filtersContainer);//ok
