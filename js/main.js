@@ -1,38 +1,82 @@
+
+const urlPath = "assets/images/viajes"
+
 //Array de imagenes
 const gallery = [
-       {
+    {
         titulo: 'Viaje 1',
-        url: '../assets/images/viajes/viajes-1.jpg',
-        alt: 'texto alternativo de la imagen',
+        url: `${urlPath}/viajes-1.jpg`,
+        alt: 'alt1',
         descripcion: 'Breve descripción de la imagen 1',
-        tags: ['mar'],
+        tags: ['mar, arena'],
     },
-  {
+    {
         titulo: 'Viaje 2',
-        url: '../assets/images/viajes/viajes-2.jpg',
-        alt: 'texto alternativo de la imagen',
+        url: `${urlPath}/viajes-2.jpg`,
+        alt: 'alt2',
         descripcion: 'Breve descripción de la imagen 2',
         tags: ["arena"],
     },
-      {
+    {
         titulo: 'Viaje 3',
-        url: '../assets/images/viajes/viajes-3.jpg',
-        alt: 'texto alternativo de la imagen',
+        url: `${urlPath}/viajes-3.jpg`,
+        alt: 'alt3',
         descripcion: 'Breve descripción de la imagen 3',
         tags: ["mar","cosa"],
     },
+    {
+        titulo: 'Viaje 4',
+        url: `${urlPath}/viajes-4.jpg`,
+        alt: 'alt4',
+        descripcion: 'Breve descripción de la imagen 4',
+        tags: ["mar","cosa"],
+    },
+    {
+        titulo: 'Viaje 5',
+        url: `${urlPath}/viajes-5.jpg`,
+        alt: 'alt5',
+        descripcion: 'Breve descripción de la imagen 5',
+        tags: ["mar","cosa"],
+    },
+    {
+        titulo: 'Viaje 6',
+        url: `${urlPath}/viajes-6.jpg`,
+        alt: 'alt6',
+        descripcion: 'Breve descripción de la imagen 6',
+        tags: ["mar","montaña"],
+    },
+    {
+        titulo: 'Viaje 7',
+        url: `${urlPath}/viajes-7.jpg`,
+        alt: 'alt7',
+        descripcion: 'Breve descripción de la imagen 7',
+        tags: ["mar","cosa"],
+    }
 
 ]
+
+const sentence = document.querySelector("#sentence");
+const imgBig = document.querySelector("#imgBig");
+const filtersContainer = document.querySelector("#filtersContainer");
+const galleryRef = document.querySelector("#gallery");
 
 const fragment = document.createDocumentFragment();
 
 
+
 // Function called when the user clicks on the filet tag button.
 // @param idTag : String with the tag that will be used to filter elements.
+filtersContainer.addEventListener("click", (ev) =>{
+    onClickFilterTag(ev)
+});
+
+
+
 const onClickFilterTag = (ev) =>{
-    modifyImgBig(ev.target.id);
-    const visibleCardsNum = modifyCardsVisibilty(ev.target.id);
-    modifySentence(ev.target.id, visibleCardsNum);
+    const id = ev.target.id
+    modifyImgBig(id);
+    const visibleCardsNum = modifyCardsVisibilty(id);
+    modifySentence(id, visibleCardsNum);
 
 }
 
@@ -60,7 +104,6 @@ const modifyCardsVisibilty = (currentTag) =>{
 // @param tagId: String with the id the that will be inserted in the text.
 // @param visibleCardsNum : Number with the value that will be inserted in the text.
 const modifySentence = (tagId, visibleCardsNum) =>{
-        const sentence = document.querySelector("#sentence");
         sentence.textContent =  `Se ha encontrado ${visibleCardsNum} imágenes con el tag ${tagId}`;  
 }
 
@@ -68,15 +111,12 @@ const modifySentence = (tagId, visibleCardsNum) =>{
 // Modify the big img with a give id.
 // @param tagId: String with the id the that will be used to modify the image.
 const modifyImgBig = (tagId) => {
-        const imgBig = document.querySelector(`#imgBig`);
-        const imagen = gallery.find(imagen =>{
-
-                return imagen.tags.includes(tagId);
-        }) 
-        if(imagen!= undefined && imagen != null){
-            imgBig.src = imagen.url;
-        }
-        
+    const imagen = gallery.find(imagen =>{
+        return imagen.tags.includes(tagId);
+    }) 
+    if(imagen!= undefined && imagen != null){
+        imgBig.src = imagen.url;
+    }
 }
 
 
@@ -108,7 +148,7 @@ const getExistingTags = (objectArray) =>{
 //Create all the buttons for the id filters container.
 const createAllFilters = () => {
     const nombresFilters = getExistingTags(gallery);
-    const filtersContainer = document.querySelector("#filtersContainer");
+    
 
     nombresFilters.forEach(name => {
         const newButton = createFilter(name);
@@ -119,16 +159,6 @@ const createAllFilters = () => {
         fragment.append(newButton);
     });
     filtersContainer.append(fragment);
-
-    //Events with delegate:
-    /*
-    filtersContainer.addEventListener("click", (ev) =>{
-            onClickFilterTag(ev)
-        })
-    onClickFilterTag should check a if the target is the correct with a class or with a data-set.
-    */
-    
-
 }
 
 
@@ -153,7 +183,7 @@ const createCard = (galleryImage) =>{
 
 // Fill the element with gallery id with card elements using the gallery data.
 const fillGallery = () =>{
-    const galleryRef = document.querySelector("#gallery");
+    
     gallery.forEach(element => {
         const newCard = createCard(element);
         fragment.append(newCard);
@@ -166,3 +196,4 @@ const init = () =>{
     createAllFilters();
     fillGallery();
 }
+init();
